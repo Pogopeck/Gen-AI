@@ -1,16 +1,24 @@
 import os
+from dotenv import load_dotenv
 import cohere
 
-# Set the API key as an environment variable
-os.environ['COHERE_API_KEY'] = 'API_KEY'  # Replace with your actual API key
+# Load environment variables
+load_dotenv()
+
+# Get API key from environment variables
+api_key = os.getenv('COHERE_API_KEY')
 
 # Initialize Cohere client
-co = cohere.Client(os.getenv('COHERE_API_KEY'))
+co = cohere.Client(api_key)
 
-# Test with a simple prompt
-response = co.generate(
-    model='command',
-    prompt='tell me a joke about programming',
-    max_tokens=50
-)
-print(response.generations[0].text)
+def generate_response():
+    response = co.generate(
+        model='command',
+        prompt='tell me a joke about programming',
+        max_tokens=50
+    )
+    return response.generations[0].text
+
+if __name__ == "__main__":
+    print(generate_response())
+
